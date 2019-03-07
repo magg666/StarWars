@@ -5,18 +5,21 @@ swapiRequest.onload = function () {
 	let swapiData = JSON.parse(swapiRequest.responseText);
 	// console.log(swapiData);
 	// console.log(swapiData.results[0].name);
+	// console.log(swapiData.results[0].diameter);
+	createEmptyTable(swapiData);
+	return swapiData;
 }
 
 swapiRequest.send();
-window.onload = createEmptyTable;
 
 
-function createEmptyTable() {
+function createEmptyTable(data) {
 	const tableBody = document.querySelector('#table-body');
 
 	for (let ii = 0; ii < 10; ii++) {
 		let rowId = 'row' + ii;
 		const tableRow = document.createElement('tr');
+		tableRow.classList.add('row-class');
 		tableRow.setAttribute('id', rowId);
 		tableBody.appendChild(tableRow);
 
@@ -25,19 +28,36 @@ function createEmptyTable() {
 			tableRow.appendChild(tableCell);
 		}
 	}
-	fillTable();
+	fillTable(data);
 }
 
 
-function fillTable() {
-	// const tableBody = document.querySelector('#table-body');
-	// let cols = document.querySelector('#row0').getElementsByTagName('td');
-	// console.log(cols);
-	//
-	// for (let col in cols) {
-	// 	console.log("col", col);
-	// }
+function fillTable(data) {
+	const tableBody = document.querySelector('#table-body');
+	let rows = document.querySelectorAll('.row-class');
 
 
+	let factor;
+
+
+	for (let j = 0; j < 10; j++) {
+		let row = rows[j];
+		factor = {
+			planet: [data.results[j].name,
+			         data.results[j].diameter,
+			         data.results[j].climate,
+			         data.results[j].terrain,
+			         data.results[j].surface_water,
+			         data.results[j].population,
+			         data.results[j].residents.length]
+		};
+		// console.log("oneRow", row);
+		// console.log("allRows", rows);
+
+		for (let i = 0; i < 8; i++) {
+			let cells = row.getElementsByTagName('td');
+			cells[i].textContent = factor.planet[i];
+		}
+	}
 
 }
