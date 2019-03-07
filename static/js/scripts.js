@@ -40,7 +40,7 @@ function fillTable(data) {
 	let factor;
 
 
-	for (let j = 0; j < 10; j++) {
+	for (let j = 0; j < rows.length; j++) {
 		let row = rows[j];
 		factor = {
 			planet: [data.results[j].name,
@@ -54,8 +54,9 @@ function fillTable(data) {
 		// console.log("oneRow", row);
 		// console.log("allRows", rows);
 
-		for (let i = 0; i < 8; i++) {
-			let cells = row.getElementsByTagName('td');
+		let cells = row.getElementsByTagName('td');
+		for (let i = 0; i < cells.length; i++) {
+
 			cells[i].textContent = factor.planet[i];
 		}
 	}
