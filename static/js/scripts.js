@@ -1,4 +1,3 @@
-let planetId = 1;
 const swapiRequest = new XMLHttpRequest();
 swapiRequest.open('GET', 'https://swapi.co/api/planets/?page=1');
 swapiRequest.onload = function () {
