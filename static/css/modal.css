@@ -1,0 +1,13 @@
+.login-modal {
+    text-align: center;
+}
+
+.login-title {
+    font-size: 26px;
+    font-weight: bold;
+    padding: 20px;
+}
+.login-input{
+    font-size: 24px;
+    width: 80%;
+}
