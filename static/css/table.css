@@ -30,9 +30,6 @@ td {
     margin: auto;
 }
 
-.res-cell{
-    padding: 10px;
-}
 .res-title {
     font-size: 24px;
     font-weight: bold;
@@ -51,3 +48,4 @@ td {
     font-size: 26px;
     color: springgreen;
 }
+
