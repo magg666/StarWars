@@ -21,7 +21,7 @@ function createEmptyTable(tableBodySelector, rowIdIndicator, rowClassIndicator, 
 
         for (let i = 0; i < numberOfCellsInRow; i++) {
             const tableCell = document.createElement('td');
-            tableCell.classList.add(cellClassIndicator);
+            tableCell.classList.add(cellClassIndicator + i);
             tableRow.appendChild(tableCell);
         }
     }
