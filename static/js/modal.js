@@ -17,8 +17,8 @@ $(document).ready(function() {
 			else {
 				$('#successAlert').text('Welcome '+ data.username).show();
 				$('#errorAlert').hide();
-				setTimeout(function (){fresh()}, 2000);
 
+				setTimeout(function (){fresh()}, 2000);
 			}
             });
     event.preventDefault();
