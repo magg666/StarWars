@@ -1,5 +1,6 @@
 import {clearElementBy, createEmptyTable} from "./create_table.js";
 import {init} from "./residents.js";
+import {prepareVoteButton, sendPlanetNameToServer} from "./vote.js";
 
 
 const starWarsPlanetRequest = new XMLHttpRequest();
@@ -18,7 +19,7 @@ function formatPlanetData(data, planetNumber) {
         residents: (data.results[planetNumber].residents.length > 0) ?
             `<button class="residents-button btn btn-outline-info">${data.results[planetNumber].residents.length} ${'resident(s)'} </button>`
             : '<button class="residents-button hidden"></button><span>No known residents</span>',
-        votes: '<button class="vote-button btn btn-outline-dark">Vote</button>',
+        votes: '<a href="/test"><button class="vote-button btn btn-outline-dark">Vote</button></a>',
         url: data.results[planetNumber].url,
         next: data.next,
         previous: data.previous,
@@ -114,8 +115,15 @@ function createFullPlanetTable(data, numberOfRows, numberOfCellsInRow) {
 
     fillPlanetTable(data, numberOfRows, numberOfCellsInRow);
 
-    prepareResidentsButton()
+    prepareResidentsButton();
+
+    prepareVoteButton();
+
+    checkIsUserLogged()
 }
+
+
+
 
 function showPage(link) {
     starWarsPlanetRequest.open('GET', link);
@@ -129,10 +137,43 @@ function showPage(link) {
     starWarsPlanetRequest.send();
 }
 
+function checkIsUserLogged() {
+
+    let indicator = document.getElementById('check-user');
+    let voteButtons = document.querySelectorAll('.vote-button');
+
+        if (indicator.dataset.user === 'no') {
+            for (let i = 0; i < voteButtons.length; i++) {
+                voteButtons[i].classList.add('hidden')
+            }
+        } else {
+            for (let i = 0; i < voteButtons.length; i++) {
+                voteButtons[i].classList.remove('hidden')
+            }
+        }
+    }
+
+
+
+
 //start
 function main() {
     const firstPageLink = 'https://swapi.co/api/planets/?page=1';
     showPage(firstPageLink);
+    sendPlanetNameToServer();
+    document.cookie = 'user=yyyy';
+    getCookie('user')
 }
 
 window.onload = main;
+
+let getCookie = function(name) {
+    let cookies = document.cookie.split(';');
+    for(let i=0 ; i < cookies.length ; ++i) {
+        let pair = cookies[i].trim().split('=');
+        if(pair[0] === name)
+            console.log( pair[1]);
+    }
+    return null;
+};
+
