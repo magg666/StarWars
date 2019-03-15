@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from functools import wraps
 
 import user as user
-
+import vote as vote
 
 app = Flask(__name__)
 app.secret_key = 'uuu'
@@ -31,8 +31,9 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    if user.is_exist_already(username) and user.verify_password(username, password):
+    if user.exists_already(username) and user.verify_password(username, password):
         session['username'] = username
+        session['id'] = user.get_id_by_username(username)
         return jsonify({'username': username})
 
     else:
@@ -42,6 +43,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('id', None)
     return redirect(url_for('index'))
 
 
@@ -55,7 +57,7 @@ def registration():
     if not user.is_all_data_validate(username, first_password, validation_password):
         return jsonify({'error': 'Please provide all data'})
 
-    if user.is_exist_already(username):
+    if user.exists_already(username):
         return jsonify({'error': 'This user already exists'})
 
     if not user.is_passwords_equal(first_password, validation_password):
@@ -63,7 +65,13 @@ def registration():
 
     else:
         user.registration(username, first_password)
-        return jsonify({'username': username})
+        return jsonify({'login': username})
+
+
+@app.route('/test', methods=['POST', 'GET'])
+def test():
+    a = jsonify({'a': 'abd'})
+    return a + 'uuu'
 
 
 if __name__ == '__main__':
