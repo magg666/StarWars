@@ -1,4 +1,5 @@
 import bcrypt
+
 import db_user as user_manager
 
 
@@ -13,7 +14,7 @@ def verify_password(user_name, plain_text_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
 
 
-def is_exist_already(username):
+def exists_already(username):
     result = user_manager.if_username_exist(username)
     if int(result) == 1:
         return True
@@ -46,3 +47,11 @@ def registration(user_name, password):
     hashed_password = hash_password(password)
     user_data = user_manager.add_user(user_name, hashed_password)
     return user_data
+
+
+def get_id_by_username(username):
+    if exists_already(username):
+        user_id = user_manager.get_id_for_user(username)
+        return user_id['id']
+    else:
+        return 0
