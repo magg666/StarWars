@@ -42,3 +42,14 @@ def if_username_exist(cursor, username):
     cursor.execute(str_sql, {'username': username})
     exist = cursor.fetchone()
     return exist['bit']
+
+
+@con.connection_handler
+def get_id_for_user(cursor, username):
+    str_sql = """
+    SELECT id FROM users
+    WHERE username = %(username)s
+    """
+    cursor.execute(str_sql, {'username': username})
+    user_id = cursor.fetchone()
+    return user_id
