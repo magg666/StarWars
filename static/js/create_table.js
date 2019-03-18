@@ -2,10 +2,10 @@ export {clearElementBy, createEmptyTable}
 
 // delete old, create new
 function clearElementBy(selector) {
-    const tableBody = document.querySelector(selector);
+    const element = document.querySelector(selector);
 
-    while (tableBody.firstChild) {
-        tableBody.removeChild(tableBody.firstChild)
+    while (element.firstChild) {
+        element.removeChild(element.firstChild)
     }
 }
 
