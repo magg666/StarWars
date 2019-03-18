@@ -18,6 +18,7 @@ $(document).ready(function() {
 				$('#successAlert').text('Welcome '+ data.username).show();
 				$('#errorAlert').hide();
 
+				document.cookie = `username=${$('#username').val()}`;
 				setTimeout(function (){fresh()}, 2000);
 			}
             });
