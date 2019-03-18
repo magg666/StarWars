@@ -68,11 +68,6 @@ def registration():
         return jsonify({'login': username})
 
 
-@app.route('/test', methods=['POST', 'GET'])
-def test():
-    a = jsonify({'a': 'abd'})
-    return a + 'uuu'
-
 
 if __name__ == '__main__':
     app.run(debug=True)

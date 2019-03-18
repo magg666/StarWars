@@ -161,8 +161,8 @@ function main() {
     const firstPageLink = 'https://swapi.co/api/planets/?page=1';
     showPage(firstPageLink);
     sendPlanetNameToServer();
-    document.cookie = 'user=yyyy';
-    getCookie('user')
+    // document.cookie = 'user=yyyy';
+    getCookie('username')
 }
 
 window.onload = main;
