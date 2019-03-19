@@ -18,10 +18,7 @@
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
 
-    <script src="{{ url_for('static', filename='js/planets.js') }}" type="module" defer></script>
-    <script src="{{ url_for('static', filename='js/residents.js') }}" type="module" defer></script>
-    <script src="{{ url_for('static', filename='js/modal.js') }}" type="module" defer></script>
-    <script src="{{ url_for('static', filename='js/vote.js') }}" type="module" defer></script>
+
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/hover.css') }}">
@@ -52,7 +49,6 @@
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
 
-
             {% else %}
                 <li class="nav-item hvr-underline-from-center">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
@@ -65,15 +61,6 @@
 
 
     </div>
-    {% if session['username'] %}
-        <div class="mr-sm-2">
-            <span id="check-user" data-user="yes">Logged as {{ session['username'] }}</span>
-        </div>
-    {% else %}
-        <span id="check-user" data-user="no" class="hidden"></span>
-
-    {% endif %}
-
 </nav>
 
 <h1>Star Wars universe planets</h1>
@@ -90,5 +77,10 @@
 
 {% block content %}
 {% endblock %}
+    <script src="{{ url_for('static', filename='js/planets.js') }}" type="module" defer></script>
+    <script src="{{ url_for('static', filename='js/residents.js') }}" type="module" defer></script>
+    <script src="{{ url_for('static', filename='js/modal.js') }}" type="module" defer></script>
+    <script src="{{ url_for('static', filename='js/vote.js') }}" type="module" defer></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" type="module" defer></script>
 </body>
 </html>

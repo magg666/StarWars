@@ -2,7 +2,6 @@ import {clearElementBy, createEmptyTable} from "./create_table.js";
 import {init} from "./residents.js";
 import {prepareVoteButton, sendPlanetNameToServer} from "./vote.js";
 
-
 const starWarsPlanetRequest = new XMLHttpRequest();
 const nextButton = document.getElementById('next-button');
 const previousButton = document.getElementById('previous-button');
@@ -19,7 +18,7 @@ function formatPlanetData(data, planetNumber) {
         residents: (data.results[planetNumber].residents.length > 0) ?
             `<button class="residents-button btn btn-outline-info">${data.results[planetNumber].residents.length} ${'resident(s)'} </button>`
             : '<button class="residents-button hidden"></button><span>No known residents</span>',
-        votes: '<a href="/test"><button class="vote-button btn btn-outline-dark">Vote</button></a>',
+        votes: '<button class="vote-button btn btn-outline-dark">Vote</button>',
         url: data.results[planetNumber].url,
         next: data.next,
         previous: data.previous,
@@ -117,9 +116,10 @@ function createFullPlanetTable(data, numberOfRows, numberOfCellsInRow) {
 
     prepareResidentsButton();
 
-    prepareVoteButton();
+    prepareVoteButton()
 
-    checkIsUserLogged()
+    //
+    // checkIsUserLogged()
 }
 
 
@@ -162,7 +162,7 @@ function main() {
     showPage(firstPageLink);
     sendPlanetNameToServer();
     // document.cookie = 'user=yyyy';
-    getCookie('username')
+    // getCookie('username')
 }
 
 window.onload = main;

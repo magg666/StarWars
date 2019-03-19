@@ -19,7 +19,7 @@ $(document).ready(function() {
 				$('#errorAlert').hide();
 
 				document.cookie = `username=${$('#username').val()}`;
-				setTimeout(function (){fresh()}, 2000);
+				// setTimeout(function (){fresh()}, 2000);
 			}
             });
     event.preventDefault();

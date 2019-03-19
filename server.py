@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify, make_response
 from functools import wraps
 
 import user as user
@@ -34,6 +34,7 @@ def login():
     if user.exists_already(username) and user.verify_password(username, password):
         session['username'] = username
         session['id'] = user.get_id_by_username(username)
+
         return jsonify({'username': username})
 
     else:

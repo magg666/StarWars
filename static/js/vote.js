@@ -1,5 +1,13 @@
 export {prepareVoteButton, sendPlanetNameToServer}
 
+function createVoteButton(){
+    const cellForVote = document.querySelectorAll('.cell7');
+
+    let voteButton = document.createElement('button');
+    voteButton.classList.add('vote-button', 'btn', 'btn-outline-dark');
+
+    cellForVote.appendChild(voteButton)
+}
 
 
 
