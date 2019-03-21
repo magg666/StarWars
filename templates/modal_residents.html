@@ -1,9 +1,10 @@
 <div class="modal fade" id="residentsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-     aria-hidden="true" >
-    <div class="modal-dialog" role="document" >
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title res-title"></h5>
+                <div id="res-spinner" class="spinner-border m-5" role="status"></div>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -24,8 +25,10 @@
                     </thead>
                     <tbody id="residents-table-body">
 
+
                     </tbody>
                 </table>
+
 
             </div>
             <div class="modal-footer">
