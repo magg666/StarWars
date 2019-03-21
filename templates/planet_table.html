@@ -1,25 +1,26 @@
 {% extends 'layout.html' %}
 {% block link %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
+
 {% endblock %}
 
 {% block content %}
-<table class="table table-bordered">
-    <thead class="thead-light">
-    <tr>
-        <th>Name</th>
-        <th>Diameter</th>
-        <th>Climate</th>
-        <th>Terrain</th>
-        <th>Surface Water Percentage</th>
-        <th>Population</th>
-        <th>Residents</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-</table>
-{#    <table class="table table-bordered">#}
-{##}
-{#    </table>#}
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Terrain</th>
+            <th>Surface Water Percentage</th>
+            <th>Population</th>
+            <th>Residents</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody id="table-body"></tbody>
+    </table>
+
 {% endblock %}
