@@ -1,6 +1,7 @@
 import {checkIfLoggedAndSetNavBarAccordingly} from "./dom_handler.js";
 import {clearElement} from "./dom_handler.js";
 import {displaySuccessMessage, displayErrorMessage} from "./dom_handler.js";
+import {setCookie} from "./cookies_handler.js";
 
 export {handleLogin}
 
@@ -36,7 +37,7 @@ function addLoginEventHandlerToForm() {
     })
 }
 
-function checkAndInformUser(dataLog) {
+function checkAndInformUser(loginData) {
     let loginRequest = new XMLHttpRequest();
 
     loginRequest.open('POST', '/login');
@@ -46,7 +47,7 @@ function checkAndInformUser(dataLog) {
         let serverRespond = JSON.parse(loginRequest.responseText);
         if(serverRespond['success']){
             displaySuccessMessage(signingParameters, serverRespond['success']);
-            document.cookie = 'username=' + dataLog.username;
+            setCookie(loginData.username);
             checkIfLoggedAndSetNavBarAccordingly();
             setTimeout(function () {
                 $('#loginModal').modal('hide')
@@ -57,7 +58,7 @@ function checkAndInformUser(dataLog) {
         }
     };
 
-    loginRequest.send(JSON.stringify(dataLog));
+    loginRequest.send(JSON.stringify(loginData));
 }
 
 function handleLogin() {
