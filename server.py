@@ -28,14 +28,15 @@ def index():
 @app.route('/login', methods=['POST'])
 @login_forbidden
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
 
     if user.exists_already(username) and user.verify_password(username, password):
         session['username'] = username
         session['id'] = user.get_id_by_username(username)
 
-        return jsonify({'username': username})
+        return jsonify({'success': 'Welcome ' + username})
 
     else:
         return jsonify({'error': 'Wrong username or password!'})
@@ -45,7 +46,9 @@ def login():
 def logout():
     session.pop('username', None)
     session.pop('id', None)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('username', expires=0)
+    return resp
 
 
 @app.route('/registration', methods=['POST'])
@@ -67,7 +70,6 @@ def registration():
     else:
         user.registration(username, first_password)
         return jsonify({'login': username})
-
 
 
 if __name__ == '__main__':
