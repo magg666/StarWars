@@ -1,25 +1,33 @@
-export {prepareVoteButton, sendPlanetNameToServer}
+export {addVoteButton, showVoteButtons}
+import {getCookie} from "./cookies_handler.js";
 
-function createVoteButton(){
-    const cellForVote = document.querySelectorAll('.cell7');
-
-    let voteButton = document.createElement('button');
-    voteButton.classList.add('vote-button', 'btn', 'btn-outline-dark');
-
-    cellForVote.appendChild(voteButton)
+function showVoteButtons() {
+    let username = getCookie('username');
+    if(username !== null){
+        addVoteButton()
+    }
 }
 
+function addVoteButton() {
+    let voteCells = document.querySelectorAll('.cell7');
+    for(let cell of voteCells){
+        let voteButton = createVoteButton();
+        cell.appendChild(voteButton);
 
+        let closestRow = cell.closest('.row-class');
+        voteButton.setAttribute('data-planet-url', closestRow.dataset.url);
 
+        let planetLink = voteButton.dataset.planetUrl;
+        bindPlanetNameToButton(planetLink, voteButton)
 
-
-function prepareVoteButton() {
-    let voteButtons = document.querySelectorAll('.vote-button');
-    let planetLinks = document.querySelectorAll('.row-class');
-    for (let i = 0; i < planetLinks.length; i++) {
-        let planetLink = planetLinks[i].dataset.url;
-        bindPlanetNameToButton(planetLink, voteButtons[i])
     }
+}
+
+function createVoteButton (){
+    let voteButton = document.createElement('button');
+    voteButton.classList.add('vote-button');
+    voteButton.textContent = 'Vote';
+    return voteButton
 }
 
 function bindPlanetNameToButton(link, button) {
@@ -32,20 +40,4 @@ function bindPlanetNameToButton(link, button) {
     };
     planetRequest.send();
 }
-
-function sendPlanetNameToServer() {
-    $(document).ready(function () {
-        let clicked;
-        $(".vote-button").click(function () {
-            clicked = $(this).attr("data-planet-name");
-            $.ajax({
-                type: 'POST',
-                url: "/test",
-                contentType: 'application/json;charset=UTF-8',
-                data: {'data': clicked}
-            });
-        });
-    });
-}
-
 

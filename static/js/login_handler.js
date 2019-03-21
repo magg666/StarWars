@@ -2,6 +2,7 @@ import {checkIfLoggedAndSetNavBarAccordingly} from "./dom_handler.js";
 import {clearElement} from "./dom_handler.js";
 import {displaySuccessMessage, displayErrorMessage} from "./dom_handler.js";
 import {setCookie} from "./cookies_handler.js";
+import {showVoteButtons} from "./vote.js";
 
 export {handleLogin}
 
@@ -49,6 +50,7 @@ function checkAndInformUser(loginData) {
             displaySuccessMessage(signingParameters, serverRespond['success']);
             setCookie(loginData.username);
             checkIfLoggedAndSetNavBarAccordingly();
+            showVoteButtons();
             setTimeout(function () {
                 $('#loginModal').modal('hide')
             }, 2000)

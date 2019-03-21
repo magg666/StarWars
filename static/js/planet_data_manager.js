@@ -2,6 +2,7 @@ export {startDisplayingPlanetTable}
 
 import {createEmptyTable, clearElement} from "./dom_handler.js";
 import {prepareResidentsButton} from "./residents_data_manager.js";
+import {showVoteButtons} from "./vote.js";
 
 // various parameter for planet table
 
@@ -106,10 +107,11 @@ function createFullPlanetTable(planetData, numberOfRows, numberOfCellsInRow) {
     // prepare buttons for residents with all additional functions (this is imported from residents)
 
     prepareResidentsButton();
+
     //
-    // prepareVoteButton();
-    //
-    // checkIsUserLogged();
+    showVoteButtons()
+
+
 
 }
 
@@ -117,7 +119,7 @@ function createFullPlanetTable(planetData, numberOfRows, numberOfCellsInRow) {
 
 // send request for data (for planet)
 function getDataForPlanets(link){
-    document.querySelector('.spinner-border').innerHTML = "<span>Loading...</span>";
+    document.querySelector('.spinner-border').innerHTML = "<span style='font-size: 24px'>Loading...</span>";
     starWarsPlanetRequest.open('GET', link);
     starWarsPlanetRequest.onreadystatechange = function () {
         if(starWarsPlanetRequest.readyState === 4 && starWarsPlanetRequest.status === 200){
