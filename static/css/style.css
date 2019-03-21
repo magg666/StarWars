@@ -44,3 +44,10 @@ td {
 .cell2 {
     width: 15%;
 }
+ul {
+    width: 100%;
+    display: inline!important;
+}
+#login-info-nav {
+    float: right;
+}
