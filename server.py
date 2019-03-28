@@ -1,23 +1,11 @@
-from flask import Flask, render_template, request, redirect, session, url_for, jsonify, make_response
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from functools import wraps
 
 import user as user
-import vote as vote
+import vote as vote_
 
 app = Flask(__name__)
 app.secret_key = 'uuu'
-
-
-# wrapper to verified if user is not logged
-def login_forbidden(func):
-    @wraps(func)
-    def wrap(*args, **kwargs):
-        if 'username' not in session:
-            return func(*args, **kwargs)
-        else:
-            return jsonify({'error': 'You are already logged!'})
-
-    return wrap
 
 
 @app.route('/')
@@ -26,7 +14,6 @@ def index():
 
 
 @app.route('/login', methods=['POST'])
-@login_forbidden
 def login():
     data = request.get_json()
     username = data['username']
@@ -36,23 +23,22 @@ def login():
         session['username'] = username
         session['id'] = user.get_id_by_username(username)
 
-        return jsonify({'success': 'Welcome ' + username})
+        return jsonify({'state': 'success'})
 
     else:
-        return jsonify({'error': 'Wrong username or password!'})
+        return jsonify({'state': 'error'})
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('username', None)
-    session.pop('id', None)
-    resp = make_response(redirect(url_for('index')))
-    resp.set_cookie('username', expires=0)
-    return resp
+    session.clear()
+    if not session:
+        return jsonify({'state': 'success'})
+    else:
+        return jsonify({'state': 'error'})
 
 
 @app.route('/registration', methods=['POST'])
-@login_forbidden
 def registration():
     username = request.form['login']
     first_password = request.form['pass']
@@ -70,6 +56,20 @@ def registration():
     else:
         user.registration(username, first_password)
         return jsonify({'login': username})
+
+
+@app.route('/vote', methods=['GET', 'POST'])
+def vote():
+    planet_data = request.get_json()
+    username = planet_data['username']
+    user_id = session['id']
+    planet_vote_data = {'planet_name': planet_data['planet_name'],
+                        'planet_id': planet_data['planet_id'],
+                        'user_id': user_id
+                        }
+    if user.is_id_correct(username, user_id):
+        planet_name = vote_.vote_planet(planet_vote_data)
+        return jsonify({'state': planet_name['planet_name']})
 
 
 if __name__ == '__main__':

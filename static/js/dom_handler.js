@@ -1,7 +1,10 @@
-import {getCookie} from "./cookies_handler.js";
+import {logout, addLoginEventHandlerToForm} from "./login_handler.js";
+import {handleLogin} from "./login_handler.js";
+import {controlVoteButtons} from "./vote.js";
+
 
 export {checkIfLoggedAndSetNavBarAccordingly}
-export {createEmptyTable, clearElement}
+export {clearElement}
 export {displayErrorMessage, displaySuccessMessage}
 
 
@@ -25,6 +28,11 @@ function createLogoutNav() {
     a.setAttribute('href', "/logout");
     a.textContent = 'Logout';
     logoutNav.appendChild(a);
+
+    logoutNav.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        logout()
+    });
 
     return logoutNav
 
@@ -80,61 +88,44 @@ function createLoginInfo(username) {
 // when page loaded - check if user is logged(is there a cookie with his username) and show nav bar adequately
 function checkIfLoggedAndSetNavBarAccordingly() {
     const navList = document.getElementById('nav-bar');
-    let username = getCookie('username');
+    let username = localStorage.getItem('username');
 
-    let logoutNav = document.getElementById('logout-nav');
-    let loginInfoNav = document.getElementById('login-info-nav');
-    let loginNav = createLoginNav();
-    let registrationNav = createRegistrationNav();
 
     if(username === null){
+        let logoutNav = document.getElementById('logout-nav');
+        let loginInfoNav = document.getElementById('login-info-nav');
+        let loginNav = createLoginNav();
+        let registrationNav = createRegistrationNav();
 
         if (navList.contains(logoutNav) && navList.contains(loginInfoNav)) {
             navList.replaceChild(loginNav, logoutNav);
-            navList.replaceChild(loginInfoNav, registrationNav);
+            navList.replaceChild(registrationNav, loginInfoNav);
 
         } else {
             navList.appendChild(loginNav);
-            navList.appendChild(registrationNav)
+            navList.appendChild(registrationNav);
+
         }
+
     }else{
-        loginNav = document.getElementById('login-nav');
-        registrationNav = document.getElementById('registration-nav');
-        logoutNav = createLogoutNav();
-        loginInfoNav = createLoginInfo(username);
+        let loginNav = document.getElementById('login-nav');
+        let registrationNav = document.getElementById('registration-nav');
+        let logoutNav = createLogoutNav();
+        let loginInfoNav = createLoginInfo(username);
 
         if(navList.contains(loginNav) && navList.contains(registrationNav)){
             navList.replaceChild(logoutNav, loginNav);
             navList.replaceChild(loginInfoNav, registrationNav);
 
         }else{
-            logoutNav = createLogoutNav();
-            loginInfoNav = createLoginInfo(username);
+
             navList.appendChild(logoutNav);
             navList.appendChild(loginInfoNav);
+
         }
     }
 }
 
-
-// creates empty table (planets & residents)
-function createEmptyTable(tableBodySelector, rowIdIndicator, rowClassIndicator, cellClassIndicator, numberOfRows, numberOfCellsInRow) {
-    const tableBody = document.querySelector(tableBodySelector);
-
-    for (let ii = 0; ii < numberOfRows; ii++) {
-        let rowId = rowIdIndicator + ii;
-        const tableRow = document.createElement('tr');
-        tableRow.classList.add(rowClassIndicator);
-        tableRow.setAttribute('id', rowId);
-        tableBody.appendChild(tableRow);
-
-        for (let i = 0; i < numberOfCellsInRow; i++) {
-            const tableCell = document.createElement('td');
-            tableCell.classList.add(cellClassIndicator + i);
-            tableRow.appendChild(tableCell);
-        }
-    }
-}
 
 // display messages about success/fail (login/registration)
 function displayErrorMessage(signingParameters, message){

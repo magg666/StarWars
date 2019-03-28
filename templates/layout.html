@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="manifest" href="/static/js/manifest.json"/>
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
@@ -20,7 +21,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
+    <script>
+        const PATH = 'static/js/service-worker.js';
 
+        let isServiceWorkersSupport = ('serviceWorker' in navigator);
+
+        if (isServiceWorkersSupport) {
+            console.log('Will service worker register?');
+            navigator.serviceWorker.register(PATH).then(function () {
+                console.log("Yes it did.");
+            }).catch(function (err) {
+                console.log("No it didn't. This happened: ", err)
+            });
+        }
+    </script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/hover.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}">
@@ -64,9 +78,12 @@
 <script src="{{ url_for('static', filename='js/login_handler.js') }}" type="module" defer></script>
 <script src="{{ url_for('static', filename='js/vote.js') }}" type="module" defer></script>
 <script src="{{ url_for('static', filename='js/main.js') }}" type="module" defer></script>
-<script src="{{ url_for('static', filename='js/residents_data_manager.js') }}" type="module" defer></script>
-<script src="{{ url_for('static', filename='js/cookies_handler.js') }}" type="module" defer></script>
+<script src="{{ url_for('static', filename='js/residents.js') }}" type="module" defer></script>
 <script src="{{ url_for('static', filename='js/dom_handler.js') }}" type="module" defer></script>
-<script src="{{ url_for('static', filename='js/planet_data_manager.js') }}" type="module" defer></script>
+<script src="{{ url_for('static', filename='js/planets.js') }}" type="module" defer></script>
+
+
+
+
 </body>
 </html>

@@ -55,3 +55,11 @@ def get_id_by_username(username):
         return user_id['id']
     else:
         return 0
+
+
+def is_id_correct(username, session_user_id):
+    user_id = get_id_by_username(username)
+    if user_id == session_user_id:
+        return True
+    else:
+        return False
