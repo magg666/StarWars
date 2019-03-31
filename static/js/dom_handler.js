@@ -1,14 +1,13 @@
-import {logout, addLoginEventHandlerToForm} from "./login_handler.js";
-import {handleLogin} from "./login_handler.js";
-import {controlVoteButtons} from "./vote.js";
+import {logOut, logIn, registration} from "./user.js";
 
-
-export {checkIfLoggedAndSetNavBarAccordingly}
-export {clearElement}
+export {clearElement, removeHtmlString, showSpinner}
+export {createLoginInfo, createLogoutNav, createRegistrationNav, createLoginNav}
 export {displayErrorMessage, displaySuccessMessage}
 
+export {openModal, clearModal, closeModal}
 
-// clear children of selected element
+
+// clear functions
 function clearElement(selector) {
     const element = document.querySelector(selector);
 
@@ -16,6 +15,13 @@ function clearElement(selector) {
         element.removeChild(element.firstChild)
     }
 }
+
+function removeHtmlString(element) {
+    if (element) {
+        element.innerHTML = "";
+    }
+}
+
 // creates elements of navigation bar
 
 function createLogoutNav() {
@@ -29,10 +35,7 @@ function createLogoutNav() {
     a.textContent = 'Logout';
     logoutNav.appendChild(a);
 
-    logoutNav.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        logout()
-    });
+    logoutNav.addEventListener('click', logOut);
 
     return logoutNav
 
@@ -50,6 +53,7 @@ function createLoginNav() {
     a.textContent = 'Login';
 
     loginNav.appendChild(a);
+    loginNav.addEventListener('click', logIn);
 
     return loginNav
 }
@@ -66,6 +70,8 @@ function createRegistrationNav() {
     a.textContent = 'Registration';
 
     registrationNav.appendChild(a);
+
+    registrationNav.addEventListener('click', registration);
 
     return registrationNav
 
@@ -85,63 +91,95 @@ function createLoginInfo(username) {
     return loginInfoNav
 }
 
-// when page loaded - check if user is logged(is there a cookie with his username) and show nav bar adequately
-function checkIfLoggedAndSetNavBarAccordingly() {
-    const navList = document.getElementById('nav-bar');
-    let username = localStorage.getItem('username');
-
-
-    if(username === null){
-        let logoutNav = document.getElementById('logout-nav');
-        let loginInfoNav = document.getElementById('login-info-nav');
-        let loginNav = createLoginNav();
-        let registrationNav = createRegistrationNav();
-
-        if (navList.contains(logoutNav) && navList.contains(loginInfoNav)) {
-            navList.replaceChild(loginNav, logoutNav);
-            navList.replaceChild(registrationNav, loginInfoNav);
-
-        } else {
-            navList.appendChild(loginNav);
-            navList.appendChild(registrationNav);
-
-        }
-
-    }else{
-        let loginNav = document.getElementById('login-nav');
-        let registrationNav = document.getElementById('registration-nav');
-        let logoutNav = createLogoutNav();
-        let loginInfoNav = createLoginInfo(username);
-
-        if(navList.contains(loginNav) && navList.contains(registrationNav)){
-            navList.replaceChild(logoutNav, loginNav);
-            navList.replaceChild(loginInfoNav, registrationNav);
-
-        }else{
-
-            navList.appendChild(logoutNav);
-            navList.appendChild(loginInfoNav);
-
-        }
+function showSpinner(element) {
+    const spinner = document.createRange().createContextualFragment`
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>`;
+    if (element && element.firstChild === null) {
+        element.appendChild(spinner)
     }
 }
 
 
-// display messages about success/fail (login/registration)
-function displayErrorMessage(signingParameters, message){
+// display messages about success/loginFail (login/registration)
+function displayErrorMessage(fail, success, message) {
 
-    signingParameters.fail.style.display = 'block';
-    signingParameters.fail.textContent = message;
+    fail.style.display = 'block';
+    fail.textContent = message;
 
-    signingParameters.success.style.display = 'none';
+    success.style.display = 'none';
 
 }
 
-function displaySuccessMessage(signingParameters, message){
+function displaySuccessMessage(fail, success, message) {
 
-    signingParameters.success.style.display = 'block';
-    signingParameters.success.textContent = message;
+    success.style.display = 'block';
+    success.textContent = message;
 
-    signingParameters.fail.style.display = 'none';
+    fail.style.display = 'none';
 
+}
+
+// --- small modal---
+
+function createSmallModal(username, message) {
+    let modalContainer = document.getElementById('small-modal');
+    let modal = `
+    <div class="info-modal-body">
+        <div class="info-modal-title">
+            <button class="info-modal-close" id="close-small-modal"><span>&times;</span></button>
+            <span>Hello <strong>${username}</strong></span>
+        </div>        
+        <div class="info-modal-message">
+            <span>${message}</span>
+        </div>
+    </div>
+    `;
+    modalContainer.insertAdjacentHTML("afterbegin", modal)
+}
+
+function openModal(username, message) {
+    createSmallModal(username, message);
+    let modal = document.getElementById('small-modal');
+    modal.classList.replace('hidden', 'visible');
+    addHidingModal();
+}
+
+function closeSmallModal() {
+    let modal = document.getElementById('small-modal');
+    modal.innerHTML = "";
+    modal.classList.replace('visible', 'hidden');
+    window.removeEventListener('click', closeSmallModal)
+}
+
+function addHidingModal() {
+    let closeButton = document.getElementById('close-small-modal');
+    closeButton.addEventListener('click', closeSmallModal);
+    setTimeout(function () {
+        window.addEventListener('click', closeSmallModal)
+    }, 200)
+}
+
+// ---- other modals
+function closeModal(modalId) {
+    setTimeout(function () {
+        $(`#${modalId}`).modal('hide')
+    }, 2000);
+}
+
+function clearModal(modalId) {
+    $(`#${modalId}`).on('hide.bs.modal', function () {
+        let modal = document.getElementById(modalId);
+        let alerts = modal.querySelectorAll('.alert');
+        let inputs = modal.querySelectorAll('input');
+
+        for(let alert of alerts){
+            alert.style.display = 'none';
+            alert.textContent = '';
+        }
+        for(let input of inputs){
+            input.value = '';
+        }
+    });
 }
