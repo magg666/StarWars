@@ -1,10 +1,9 @@
-export {controlVoteButtons, removeCellsWithVoteButtons}
-
+export {controlVoteButtons, addCellsWithVoteButtons, removeCellsWithVoteButtons, addPlanetStatListener}
+import {openModal, clearElement} from "./dom_handler.js";
+import {postDataModern, getDataModern} from "./api_ajax.js";
 
 function controlVoteButtons() {
     let username = localStorage.getItem('username');
-    let cellVote = document.querySelector('.cell-vote');
-
 
     if (username !== null) {
         addCellsWithVoteButtons()
@@ -34,20 +33,19 @@ function addCellsWithVoteButtons() {
         cell.classList.add('cell-vote');
 
         rows[i].appendChild(cell);
-
-        let closestRow = cell.closest('.row-class');
-        voteButton.setAttribute('data-planet-url', closestRow.dataset.url);
-
-        let planetLink = voteButton.dataset.planetUrl;
-        bindPlanetNameToButton(planetLink, voteButton)
-
+        setDataAttributesForVoteButton(voteButton);
     }
+    getVotedPlanetForUser()
+
 }
+
 
 function createVoteButton() {
     let voteButton = document.createElement('button');
     voteButton.classList.add('vote-button', 'btn', 'btn-outline-dark');
     voteButton.textContent = 'Vote';
+
+
     voteButton.addEventListener('click', (ev) => {
         ev.preventDefault();
         vote(voteButton)
@@ -55,37 +53,98 @@ function createVoteButton() {
     return voteButton
 }
 
-function bindPlanetNameToButton(link, button) {
-    let planetRequest = new XMLHttpRequest();
-    planetRequest.open('GET', link);
-    planetRequest.onload = function () {
-        let planetData = JSON.parse(planetRequest.responseText);
-        button.setAttribute('data-planet-name', planetData.name);
-        button.setAttribute('data-planet-id', link.slice(29, -1))
-    };
-    planetRequest.send();
+function setDataAttributesForVoteButton(button) {
+    let row = button.closest('tr');
+    let planetUrl = row.dataset.url;
+    let cellWithName = row.querySelector('.cell0');
+    button.setAttribute('data-planet-name', cellWithName.textContent);
+    button.setAttribute('data-planet-id', planetUrl.slice(29, -1))
+}
+
+function showVotingResponse(response) {
+    let username = localStorage.getItem('username');
+    if (response['state'] !== 'error') {
+        openModal(username, `You voted on ${response['state']}!`);
+    } else {
+        openModal(username, `We are sorry, error happened. Try again later.`)
+    }
 }
 
 function vote(voteButton) {
-    let voteRequest = new XMLHttpRequest();
-    voteRequest.open('POST', '/vote');
-    voteRequest.setRequestHeader("Content-Type", "application/json");
-
     let jsonPlanetData = {
         'planet_name': voteButton.dataset.planetName,
         'planet_id': voteButton.dataset.planetId,
         'username': localStorage.getItem('username'),
     };
+    postDataModern('/vote', jsonPlanetData, showVotingResponse);
+    voteButton.disabled = true
+}
 
-    voteRequest.onload = function () {
-        let voteData = JSON.parse(voteRequest.responseText);
-        if (voteData['state'] !== 'error') {
-            alert('You voted on ' + voteData['state'])
-        } else {
-            alert('Some error')
+// ------------------
+
+function getVotedPlanetForUser() {
+    let username = localStorage.getItem('username');
+    let data = {
+        'username': username,
+    };
+    postDataModern('/user-vote', data, markVotedButtonsForUser)
+}
+
+
+function markVotedButtonsForUser(response) {
+    let listOfIds = response['planetsId'];
+
+    let voteButtons = document.querySelectorAll('.vote-button');
+
+    voteButtons.forEach(function (button) {
+            let buttonId = parseInt(button.dataset.planetId, 10);
+            if (listOfIds.includes(buttonId)) {
+                button.disabled = true
+            }
         }
+    )
+}
 
-    };voteRequest.send(JSON.stringify(jsonPlanetData));
+
+// ------------------------------
+function addPlanetStatListener() {
+    let voteStatLink = document.getElementById('vote-statistic');
+    voteStatLink.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        getStatistic()
+
+    })
+
+}
+
+function getStatistic() {
+    getDataModern('GET', '/statistic', buildVoteStatTable)
+    // let voteStatisticRequest = new XMLHttpRequest();
+    // voteStatisticRequest.open('GET', '/statistic');
+    // voteStatisticRequest.onload = function () {
+    //     let voteData = JSON.parse(voteStatisticRequest.responseText);
+    //     console.log(voteData['planet_votes']);
+    //     buildVoteStatTable(voteData['planet_votes'])
+    // };
+    // voteStatisticRequest.send()
+}
 
 
+function buildVoteStatTable(voteData) {
+
+    $('#myModal')
+        .modal('show')
+        .on('hidden.bs.modal', function () {
+            clearElement('#stat-modal')
+        });
+
+    let modalBody = document.getElementById('stat-modal');
+    for (let data of voteData['planet_votes']) {
+        let modalTable = `
+        <tr>
+        <td>${data['planet_name']}</td>
+        <td>${data['count']}</td>
+        </tr>`;
+        modalBody.insertAdjacentHTML('beforeend', modalTable);
+    }
 }
