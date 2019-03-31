@@ -10,4 +10,56 @@
 .login-input{
     font-size: 24px;
     width: 80%;
+    background-color: white;
 }
+
+.info-modal-container {
+    text-align: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.info-modal-body {
+    position: relative;
+    margin: 100px auto auto auto;
+    width: 300px;
+    height: 200px;
+    border: black 1px solid;
+    background-color: white;
+    border-radius: 12px;
+
+}
+.info-modal-title{
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 22px;
+    padding: 10px;
+    background-color: #c2cfde;
+    border-radius: 12px;
+}
+.info-modal-close {
+    border: none;
+    background-color: #c2cfde;
+    float: right;
+    font-weight: bolder;
+}
+
+.info-modal-message {
+    font-size: 26px;
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.5)
+}
+.visible {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.3)
+
+}
+
