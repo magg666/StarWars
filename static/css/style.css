@@ -51,3 +51,9 @@ ul {
 #login-info-nav {
     float: right;
 }
+.spinner {
+    display: inline;
+    padding-left: 25%;
+
+
+}
