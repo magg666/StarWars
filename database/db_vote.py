@@ -25,3 +25,24 @@ def add_vote(cursor, planet_data):
     planet_name = cursor.fetchone()
     return planet_name
 
+
+@con.connection_handler
+def count_vote_for_planets(cursor):
+    sql_str = """
+    SELECT planet_name, count(planet_name) FROM planet_votes
+    GROUP BY planet_name"""
+    cursor.execute(sql_str)
+    planet_votes = cursor.fetchall()
+    return planet_votes
+
+
+@con.connection_handler
+def find_voted_planet(cursor, username):
+    sql_str = """
+    SELECT array_agg(planet_id) as counted FROM planet_votes
+    JOIN users u on planet_votes.user_id = u.id
+    WHERE u.username = %(username)s
+    """
+    cursor.execute(sql_str, {'username': username})
+    voted_planets = cursor.fetchone()
+    return voted_planets
