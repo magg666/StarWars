@@ -10,9 +10,7 @@ th {
 td {
     white-space: pre-wrap;
 }
-.hidden{
-    display: none;
-}
+
 .residents-table {
     font-size: 22px;
     padding: 10px;
