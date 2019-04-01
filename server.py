@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, jsonify
 import os
 
 
-dataset = ' papapaumpapa'
+dataset = ' to jest jedna zmiana'
 
 
 
