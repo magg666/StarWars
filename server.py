@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, session, jsonify
 import os
 
 
+<<<<<<< HEAD
 dataset = ' to jest jedna zmiana'
+=======
+dataset = ' to jest druga zmiana'
+>>>>>>> test
 
 
 
