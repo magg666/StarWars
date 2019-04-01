@@ -48,6 +48,7 @@ function prepareLoginForm() {
     form.addEventListener('submit', verifyUserLogIn)
 }
 
+
 function verifyUserLogIn(event) {
     event.preventDefault();
     let loginData = {
@@ -111,11 +112,11 @@ function registrationResponseHandler(username, response) {
         addCellsWithVoteButtons();
         closeModal('registerModal')
 
-    } else if(response['state'] === 'empty'){
+    } else if (response['state'] === 'empty') {
         displayErrorMessage(user.registerFail, user.registerSuccess, 'Fill out the empty fields')
-    }else if(response['state'] === 'in_base'){
+    } else if (response['state'] === 'in_base') {
         displayErrorMessage(user.registerFail, user.registerSuccess, 'This username already exists')
-    }else if(response['state'] === 'not_equal'){
+    } else if (response['state'] === 'not_equal') {
         displayErrorMessage(user.registerFail, user.registerSuccess, 'Passwords must be equals')
     }
 }
