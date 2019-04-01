@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, session, jsonify
 import os
 
 
-dataset = 'umpapa'
+dataset = ' papapaumpapa'
+
+
 
 import logging_rules as log
 import user as user
