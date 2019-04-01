@@ -1,0 +1,49 @@
+.table {
+    width: 98%;
+    margin: 20px auto 20px auto;
+    font-size: 22px;
+}
+th {
+    text-align: center;
+
+}
+td {
+    white-space: pre-wrap;
+}
+
+.residents-table {
+    font-size: 22px;
+    padding: 10px;
+    width: 100%;
+    white-space: pre-wrap;
+}
+
+#residentsModal .modal-dialog {
+    max-width: 100%;
+    margin: 100px;
+}
+
+#residentsModal .modal-content {
+    width: 90%;
+    margin: auto;
+}
+
+.res-title {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.fa-mars {
+    font-size: 26px;
+    color: deepskyblue;
+}
+.fa-venus {
+    font-size: 26px;
+    color: hotpink;
+}
+.fa-genderless {
+    font-size: 26px;
+    color: springgreen;
+}
+

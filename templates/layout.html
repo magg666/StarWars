@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
+          integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="{{ url_for('static', filename='images/favicon.ico') }}" rel="icon" type="image/x-icon" />
+
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/hover.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}">
+
+
+    <script src="{{ url_for('static', filename='js/user.js') }}" type="module" defer crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/vote.js') }}" type="module" defer crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" type="module" defer crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/residents.js') }}" type="module" defer
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/dom_handler.js') }}" type="module" defer
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/planets.js') }}" type="module" defer
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/api_ajax.js') }}" type="module" defer
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/data_formatter.js') }}" type="module" defer
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}" type="module" defer crossorigin="anonymous"></script>
+    {% block link %} {% endblock %}
+
+    <title>SWAPI WARS</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="/"><img id="logo" alt="Yoda" src="/static/images/yoda.png"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav" id="nav-bar">
+            <li class="nav-item hvr-underline-from-center">
+                <a class="nav-link" href="/">Planet list</a>
+            </li>
+            <li id="vote-statistic" class="nav-item hvr-underline-from-center">
+                <a class="nav-link">Voting statistic</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="info-modal-container hidden" id="small-modal"></div>
+
+
+<h1>Star Wars universe planets</h1>
+<button id="previous-button" class="btn btn-outline-info">Previous</button>
+<button id="next-button" class="btn btn-outline-info">Next</button>
+<div class="planet-spinner spinner"></div>
+
+{% include 'modal_residents.html' %}
+{% include 'modal_login.html' %}
+{% include 'modal_register.html' %}
+{% include 'stat_modal.html' %}
+
+
+{% block content %}
+{% endblock %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

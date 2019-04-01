@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr class="row-class">
+            <th>Name</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Terrain</th>
+            <th>Surface Water Percentage</th>
+            <th>Population</th>
+            <th>Residents</th>
+        </tr>
+        </thead>
+
+        <tbody id="table-body"></tbody>
+    </table>
+
+{% endblock %}
