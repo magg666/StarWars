@@ -1,6 +1,6 @@
 import bcrypt
 
-import db_user as user_manager
+from database import db_user as user_manager
 
 
 def hash_password(plain_text_password):
