@@ -4,12 +4,20 @@ Data, in JSON format, is retrieved from external API using AJAX.
 Created to practice MVC pattern, errors handling, logging.
 Used JS error handling, dynamic DOM rendering, event-driving approach, callbacks, promises.
 
+StarWars uses:
+* Ajax fetching data
+* Handling JSON format
+* JS template strings
+* Arrow functions
+* Promises
+* Callbacks
+* Data validation on all applications levels
 
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Features](#features)
+* [Code Examples](#code-examples)
 * [Status](#status)
 * [Contact](#contact)
 
@@ -67,16 +75,6 @@ function createSmallModal(username, message) {
     modalContainer.insertAdjacentHTML("afterbegin", modal)
 }
 ```
-
-## Features
-StarWars uses:
-* Ajax fetching data
-* Handling JSON format
-* JS template strings
-* Arrow functions
-* Promises
-* Callbacks
-* Data validation on all applications levels
 
 ## Status
 Project is finished.
