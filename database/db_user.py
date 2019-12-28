@@ -1,4 +1,4 @@
-import db_connection as con
+from db_connect import db_connection as con
 
 
 @con.connection_handler
