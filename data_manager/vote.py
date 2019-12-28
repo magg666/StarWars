@@ -1,4 +1,4 @@
-import db_vote as vote_manager
+from database import db_vote as vote_manager
 
 
 class VoteProblem(Exception):
